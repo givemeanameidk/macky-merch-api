@@ -70,5 +70,16 @@ export async function updateProduct(req: Request, res: Response) {
 }
 
 export async function deleteProduct(req: Request, res: Response) {
+    try {
+        // _id is a string and not ObjectID, so no need to worry about CastError
+        if(!await Product.findByIdAndDelete(req.params.id)) {
+            return res.status(404).json({ message: "Product not found."});
+        }
 
+        return res.status(200).json({ message: "Product deleted successfully." });
+    } catch(err) {
+        console.error(err);
+
+        return res.status(500).json({ message: "Internal server error." });
+    }
 }
