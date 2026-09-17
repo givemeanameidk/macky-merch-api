@@ -43,6 +43,12 @@ const productSchema = new mongoose.Schema(
             type: String,
             enum: Object.values(ProductSize),
             required: [true, "Product size is required."]
+        },
+        description: {
+            type: String,
+            required: [true, "Description cannot be null."],
+            trim: true,
+            default: ""
         }
     },
     {

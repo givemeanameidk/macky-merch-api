@@ -7,7 +7,8 @@ export async function createProduct(req: Request, res: Response) {
         price,
         stock,
         category,
-        size
+        size,
+        description
     } = req.body;
 
     // Validate fields
@@ -26,6 +27,9 @@ export async function createProduct(req: Request, res: Response) {
     }
     if(!size || !Object.values(ProductSize).includes(size)) {
         errors.size = !size ? "Missing size." : "Invalid size.";
+    }
+    if(description === null || (description && typeof category !== "string")) { // value for description can be ""
+        errors.description = description === null ? "Description cannot be null." : "Description must be a string.";
     }
 
     if(Object.keys(errors).length > 0) {
@@ -46,7 +50,8 @@ export async function createProduct(req: Request, res: Response) {
             price: price,
             stock: stock,
             category: category.trim(),
-            size: size
+            size: size,
+            description: description
         });
 
         return res.status(201).json(product);
@@ -72,8 +77,8 @@ export async function updateProduct(req: Request, res: Response) {
 export async function deleteProduct(req: Request, res: Response) {
     try {
         // _id is a string and not ObjectID, so no need to worry about CastError
-        if(!await Product.findByIdAndDelete(req.params.id)) {
-            return res.status(404).json({ message: "Product not found."});
+        if(!await Product.findByIdAndDelete(req.params.id).lean()) {
+            return res.status(404).json({ message: "Product does not exist."});
         }
 
         return res.status(200).json({ message: "Product deleted successfully." });
