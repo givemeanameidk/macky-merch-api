@@ -1,6 +1,14 @@
 import mongoose, { type InferSchemaType } from "mongoose";
 import crypto from "node:crypto";
 
+export const ProductSize = {
+    ExtraSmall: "XS",
+    Small: "S",
+    Medium: "M",
+    Large: "L",
+    ExtraLarge: "XL"
+} as const;
+
 const productSchema = new mongoose.Schema(
     {
         _id: {
@@ -33,12 +41,15 @@ const productSchema = new mongoose.Schema(
         },
         size: {
             type: String,
-            enum: ["XS", "S", "M", "L", "XL"],
+            enum: Object.values(ProductSize),
             required: [true, "Product size is required."]
         }
     },
     {
-        timestamps: true, // createdAt and updatedAt
+        timestamps: {
+            createdAt: true,
+            updatedAt: true
+        },
         versionKey: false
     },
 );
