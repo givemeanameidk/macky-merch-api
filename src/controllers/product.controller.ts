@@ -67,7 +67,18 @@ export async function getAllProducts(req: Request, res: Response) {
 }
 
 export async function getProduct(req: Request, res: Response) {
+    try {
+        const product = await Product.findById(req.params.id).lean();
+        if(!product) {
+            return res.status(404).json({ message: "Product does not exist." })
+        }
 
+        return res.status(200).json(product);
+    } catch(err) {
+        console.error(err);
+
+        return res.status(500).json({ message: "Internal server error." });
+    }
 }
 
 export async function updateProduct(req: Request, res: Response) {
