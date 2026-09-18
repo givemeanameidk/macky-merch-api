@@ -18,7 +18,7 @@ This is a RESTful API for managing inventory of _Macky Merch_, LSCS' official me
 
 ### 1. Clone the repository and navigate into the project directory:
 ```bash
-git clone <your-repository-url>
+gh repo clone givemeanameidk/macky-merch-api
 cd macky-merch-api
 ```
 
@@ -50,3 +50,8 @@ npm run test
 
 ## Architectural Explanation
 I chose this folder structure following the standard model-view-controller (MVC) architecture. MongoDB was chosen as for the database mainly because of the challenge's low complexity (only one model schema), and secondly due to familiarity.
+
+## Challenges Faced
+My main hurdle here was the many knowledge checks involved due to not having more experience in working with backend technologies. Many instances occured where I wanted to write code to do a certain task, but I simply did not know the syntax or function call required to do so.
+
+I overcame this problem through extensive research using Google, reading through StackOverflow and developer documentation, and some assistance from Generative AI ([Google Gemini](https://gemini.google.com/)).
