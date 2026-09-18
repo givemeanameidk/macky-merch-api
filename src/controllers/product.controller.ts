@@ -62,7 +62,26 @@ export async function createProduct(req: Request, res: Response) {
 }
 
 export async function getAllProducts(req: Request, res: Response) {
+    try {
+        let query = Product.find();
 
+        // Only paginate if the request explicitly asks for it
+        if(req.query.page && req.query.limit) {
+            const page = parseInt(req.query.page as string);
+            const limit = parseInt(req.query.limit as string);
+            
+            // Basic validation to ensure they are valid numbers
+            if(!isNaN(page) && !isNaN(limit) && page > 0 && limit > 0) {
+                const skip = (page - 1) * limit;
+                query = query.skip(skip).limit(limit);
+            }
+        }
+        
+        return res.status(200).json(await query.lean());
+    } catch(err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error." });
+    }
 }
 
 export async function getProduct(req: Request, res: Response) {
