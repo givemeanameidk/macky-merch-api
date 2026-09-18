@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import productRoutes from "./src/routes/product.routes.js"
 
-dotenv.config();
+export const app = express();
 
-const app = express();
+dotenv.config();
 const PORT = process.env.port || 3000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/macky-merch-api";
 
