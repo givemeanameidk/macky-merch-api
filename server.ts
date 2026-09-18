@@ -23,6 +23,14 @@ app.get("/", (req, res) => {
 	res.status(200).json({ message: "Welcome to the Macky Merch API!" });
 });
 
+// Gracefully handle errors from malformed JSON
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if(err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
+        return res.status(400).json({ message: "Invalid JSON formatting in request body." });
+    }
+    next();
+});
+
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("MongoDB connected successfully."))
